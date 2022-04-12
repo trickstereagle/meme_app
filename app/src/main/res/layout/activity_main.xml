@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF59D"
     tools:context=".MainActivity">
 
     <ImageView
@@ -16,7 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        tools:ignore="ContentDescription" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -30,21 +32,35 @@
         android:id="@+id/shareButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="32dp"
+        android:padding="20dp"
+        android:textSize="24sp"
         android:text="@string/Share"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:fontFamily="cursive"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@drawable/button_background"
+        app:layout_constraintTop_toBottomOf="@id/memeImageView"
         android:onClick="shareMeme" />
     <Button
         android:id="@+id/nextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="32dp"
+        android:padding="20dp"
+        android:textSize="24sp"
         android:text="@string/next"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:fontFamily="cursive"
+        app:layout_constraintTop_toBottomOf="@id/memeImageView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        android:background="@drawable/button_background"
         android:onClick="nextMeme"/>
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
