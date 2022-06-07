@@ -1,9 +1,12 @@
 package com.example.memeapp
 
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -61,10 +64,15 @@ class MainActivity : AppCompatActivity() {
         mySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest)
     }
     fun shareMeme(view: View) {
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type="text/plain"
-        intent.putExtra(Intent.EXTRA_TEXT, "Check this meme I got from meme app $currentURL")
-        val chooser = Intent.createChooser(intent,"Share this meme using...")
+        val bitmapDrawable=memeImageView!!.drawable as BitmapDrawable
+        val bitmap= bitmapDrawable.bitmap
+        val bitmapPath =
+            MediaStore.Images.Media.insertImage(contentResolver,bitmap,"meme_image",null)
+        val bitmapUri= Uri.parse(bitmapPath)
+        val intent= Intent(Intent.ACTION_SEND)
+        intent.type="image/jpeg"
+        intent.putExtra(Intent.EXTRA_STREAM,bitmapUri)
+        val chooser=Intent.createChooser(intent,"Share Image")
         startActivity(chooser)
     }
     fun nextMeme(view: View) {
