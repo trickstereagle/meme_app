@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.bumptech.glide.Glide
@@ -24,6 +25,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         loadMeme()
+        save.setOnClickListener{
+            saveMeme()
+        }
     }
     @Suppress("NAME_SHADOWING")
     private fun loadMeme(){
@@ -64,18 +68,36 @@ class MainActivity : AppCompatActivity() {
         mySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest)
     }
     fun shareMeme(view: View) {
-        val bitmapDrawable=memeImageView!!.drawable as BitmapDrawable
-        val bitmap= bitmapDrawable.bitmap
-        val bitmapPath =
-            MediaStore.Images.Media.insertImage(contentResolver,bitmap,"meme_image",null)
-        val bitmapUri= Uri.parse(bitmapPath)
-        val intent= Intent(Intent.ACTION_SEND)
-        intent.type="image/jpeg"
-        intent.putExtra(Intent.EXTRA_STREAM,bitmapUri)
-        val chooser=Intent.createChooser(intent,"Share Image")
-        startActivity(chooser)
+        if(progressBar.visibility==View.GONE) {
+            val bitmapDrawable = memeImageView!!.drawable as BitmapDrawable
+            val bitmap = bitmapDrawable.bitmap
+            val bitmapPath =
+                MediaStore.Images.Media.insertImage(contentResolver, bitmap, "meme_image", null)
+            val bitmapUri = Uri.parse(bitmapPath)
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "image/jpeg"
+            intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+            val chooser = Intent.createChooser(intent, "Share Image")
+            startActivity(chooser)
+        }
+        else{
+            Toast.makeText(this,"Please wait for the image to be loaded,then try again",Toast.LENGTH_LONG).show()
+        }
     }
     fun nextMeme(view: View) {
         loadMeme()
+    }
+    private fun saveMeme(){
+        if(progressBar.visibility==View.GONE) {
+            val bitmapDrawable = memeImageView!!.drawable as BitmapDrawable
+            val bitmap = bitmapDrawable.bitmap
+            val bitmapPath =
+                MediaStore.Images.Media.insertImage(contentResolver, bitmap, "meme_image", null)
+            val bitmapUri = Uri.parse(bitmapPath)
+            Toast.makeText(this,"Save Successful",Toast.LENGTH_SHORT).show()
+        }
+        else{
+            Toast.makeText(this,"Please wait for the image to be loaded,then try again",Toast.LENGTH_LONG).show()
+        }
     }
 }
